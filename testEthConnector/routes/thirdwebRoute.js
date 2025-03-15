@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../../../.env' });
 const express = require("express");
 const router = express.Router();
 const { read, writeViaSDK, writeViaCall, webhook } = require("../controllers/thirdwebController.js");
