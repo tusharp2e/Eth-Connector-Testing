@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../../../.env' });
 const { defineChain } = require("thirdweb/chains");
 const {
   prepareContractCall,
@@ -11,7 +12,7 @@ const { invokeEVMHandleBridgeToken, fetchTxStatusByQueueId } = require("../../..
 const { privateKeyToAccount } = require("thirdweb/wallets");
 // const { isValidSignature, isExpired } = require("../../utils/helper");
 
-require('dotenv').config({path:__dirname+'/../../.env'})
+
 console.log(process.env.BRIDGE_CONTRACT_ADDRESS)
 
 // create the client with your clientId, or secretKey if in a server environment
