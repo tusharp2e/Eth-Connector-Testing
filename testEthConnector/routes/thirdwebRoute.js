@@ -5,6 +5,7 @@ const { read, writeViaSDK, writeViaSDKForTPS, writeViaCall, webhook } = require(
 const { getLatestBlockNumber } = require("../../../utils/thirdwebHelper.js");
 const {
   invokeEVMHandleBridgeToken,
+  invokeRollBackTransaction,
   setGiniAddress,
   fetchEventsFromBlockToLatest,
   cancelStuckTransaction,
@@ -35,6 +36,12 @@ router.post("/testInvokeEVMHandleBridgeToken", (req, res) => {
   });
   res.send("Called invoke EVM HandleBridgeToken!");
 });
+
+router.post("/testRollback", (req, res) => {
+  invokeRollBackTransaction(req.body.nonce);
+  res.send("Called invoke rollback tx!");
+});
+
 
 // To complete the step on mainnet , where GiniAddress would be set by KMS key
 router.post("/setGiniAddress", (req, res) => {
