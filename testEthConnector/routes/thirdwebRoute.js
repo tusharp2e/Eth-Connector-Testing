@@ -1,7 +1,7 @@
 require('dotenv').config({ path: '../../../.env' });
 const express = require("express");
 const router = express.Router();
-const { read, writeViaSDK, writeViaCall, webhook } = require("../controllers/thirdwebController.js");
+const { read, writeViaSDK, writeViaSDKForTPS, writeViaCall, webhook } = require("../controllers/thirdwebController.js");
 const { getLatestBlockNumber } = require("../../../utils/thirdwebHelper.js");
 const {
   invokeEVMHandleBridgeToken,
@@ -109,6 +109,9 @@ router.post("/createRandomTx", async (req, res) => {
 
 // Example to write on EVM via SDK
 router.post("/writeToEVMViaSDK", writeViaSDK);
+
+// Example to write on EVM via SDK
+router.post("/writeToEVMViaSDKForTPS", writeViaSDKForTPS);
 
 // Example to write on EVM via Thirdweb APIs and give process mined or error status
 router.post("/writeToEVMViaCall", writeViaCall);

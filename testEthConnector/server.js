@@ -26,6 +26,9 @@ const thirdwebRoute = require("./routes/thirdwebRoute.js");
 
 app.use("/thirdweb", thirdwebRoute);
 
+const tpsRoute = require("./routes/tpsRoute.js");
+app.use("/tps", tpsRoute);
+
 const server = app.listen(3001, () => {
   console.log("app is listening on port 3001");
 });

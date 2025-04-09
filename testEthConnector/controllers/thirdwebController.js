@@ -17,7 +17,7 @@ console.log(process.env.BRIDGE_CONTRACT_ADDRESS)
 
 // create the client with your clientId, or secretKey if in a server environment
 const client = createThirdwebClient({
-  clientId: "92e9eae3b0acac5a56e995c5f217e920",
+  clientId: "31f1dcba550cac83f6bfe001b4d2ac65",
 });
 
 // connect to your contract
@@ -46,7 +46,7 @@ const read = async (req, res) => {
 
 const writeViaSDK = async (req, res) => {
   console.log("Calling Thirdweb SDK to write to evm!");
-  const _receiver = "0x1F53959B76C4d7851078b580dC869e8712310492";
+  const _receiver = "1F53959B76C4d7851078b580dC869e8712310492";
   const _amount = 1000000000000;
 
   const transaction = await prepareContractCall({
@@ -70,6 +70,47 @@ const writeViaSDK = async (req, res) => {
 
   console.log(transactionHash);
   res.send({ message: "Write send is successful!", txId: transactionHash });
+};
+
+const writeViaSDKForTPS = async (req, res) => {
+  try {
+    console.log("Calling Thirdweb SDK for TPS to write to evm!");
+    console.log(req.body.bridgeContract)
+    const _receiver = "1F53959B76C4d7851078b580dC869e8712310492";
+    const _amount = 1000000000000;
+
+    // connect to your contract
+    const contractForTPS = getContract({
+      client,
+      chain: defineChain(80002),
+      address: req.body.bridgeContract,
+    });
+    console.log(contractForTPS);
+
+    const transaction = await prepareContractCall({
+      contractForTPS,
+      method: "function bridgeToken(string memory _receiverAddress, uint256 _amount)",
+      params: [_receiver, _amount],
+    });
+    console.log(transaction);
+
+    // client is important to add here.
+    const account = privateKeyToAccount({
+      client,
+      privateKey: "4a44f6b11af1e97b513fdae8d0d2a857703379126f46914e51f693261de8fbc2",
+      encryption: false, // no encryption
+    });
+
+    const { transactionHash } = await sendAndConfirmTransaction({
+      transaction,
+      account,
+    });
+
+    console.log(transactionHash);
+    res.send({ message: "Write send is successful!", txId: transactionHash });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const writeViaCall = async (req, res) => {
@@ -141,4 +182,4 @@ const retryToFetchStatus = async (queueId, attempt = 1) => {
 //   }
 // };
 
-module.exports = { read, writeViaSDK, writeViaCall };
+module.exports = { read, writeViaSDK, writeViaSDKForTPS, writeViaCall };
