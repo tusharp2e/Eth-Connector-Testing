@@ -9,10 +9,11 @@ const TransactionSchema = new Schema({
     unique: true, // Ensure txid is unique
   },
   createTimestamp: {
-    type: Date,
+    type: Number,
+    default: Date.now,
   },
   endTimestamp: {
-    type: Date,
+    type: Number,
     required: false, // Optional, as it might be set later
   },
   timeToComplete: {
